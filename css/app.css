@@ -1,0 +1,104 @@
+/******************************************
+* Web application: Accounting bribe
+* autor: Igor Mogilin
+******************************************/
+
+* {
+	margin: 0;
+}
+html, body {
+	height: 100%;
+}
+.wrap {
+	min-height: 100%;
+	margin-bottom: -50px;
+}
+.wrap:after {
+	content: "";
+	display: block;
+}
+[ng\:cloak], [ng-cloak], .ng-cloak {
+	display: none;
+}
+
+/******* Memu ********/
+.navbar-brand {
+/*	padding-right: 20px;
+	box-shadow: 1px 0 0 0 #444;*/
+}
+.last {
+	padding-right: 20px;
+	box-shadow: 1px 0 0 0 #444;
+}
+.navbar-inverse .navbar-brand {
+	color: #ccc;
+}
+.navbar input[type="text"] {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 100px;
+	height: 18px;
+	margin: 12px 10px;
+	border-radius: 12px;
+	border: 1px solid #111;
+	text-align: center;
+	background: #eee;
+	color: #666;
+	z-index: 1;
+	padding-bottom: 4px;
+	box-sizing: content-box;
+}
+.navbar input[type="text"]:focus {
+	box-shadow: 0 0 5px gold;
+	border: 1px solid gold;
+}
+.fa-search {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 18px 94px 0 0;
+	color: #444;
+	z-index: 2;
+}
+@media (max-width: 768px) {
+	.navbar-brand {
+		padding-right: 0;
+	}
+	.last {
+		padding-right: 10px;
+	}
+	.navbar input[type="text"] {
+		width: 95px;
+		margin-right: 70px;
+	}
+	.fa-search {
+		margin: 18px 150px 0 0;
+	}
+}
+/******* Memu ********/
+
+
+/******* Header ********/
+
+/******* Header ********/
+
+
+/******* Footer ********/
+footer {
+	height: 50px;
+	border-top: 1px solid #222;
+	background: #333;
+	text-align: center;
+}
+footer p {
+	padding-top: 12px;
+	color: #eee;
+}
+footer span {
+	color: #666;
+}
+footer, .wrap:after {
+	height: 50px;
+}
+/******* Footer ********/

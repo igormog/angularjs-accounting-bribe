@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>My bribe</title>
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="css/app.css">
+  <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body ng-app="app" ng-controller="MainCtrl">
+
+<div class="bs-grid">
+  <div class="row show-grid">
+    <div class="span10 title">
+      <h1 class="pull-left" ng-bind="'TITLE' | translate"></h1>
+      <i class="fa fa-money fa-2x"></i>
+    </div>
+    <div class="span2">
+      <ul id="lng">
+        <li ng-class="{'selected' : currentLng('en')}" ng-click="changeLng('en')">En</li>
+        <li ng-class="{'selected' : currentLng('uk')}" ng-click="changeLng('uk')">Uk</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row show-grid">
+    <div class="span12"></div>
+  </div>
+  <div class="row show-grid">
+    <div class="span2">
+      <dropdown-list data-data-list="dataList" data-search-name="name" data-placeholder="{{'SEARCH' | translate}}"></dropdown-list>
+    </div>
+      <div class="span10"></div>
+    </div>
+  <div class="row show-grid">
+    <div class="span3">
+      <input type="text" ng-model="name" placeholder="{{'NAME' | translate}}" />
+    </div>
+    <div class="span3">
+      <input type="text" ng-model="money" placeholder="{{'SUM' | translate}}(&#8364;)" />
+    </div>
+    <div class="span3">
+      <input type="text" ng-model="use" placeholder="{{'PURPOSE' | translate}}" />
+    </div>
+    <div class="span2">
+      <input type="text" ng-model="data" placeholder="{{'DATE' | translate}}" />
+    </div>
+    <div class="span1">
+      <button class="btn btn-lg btn-primary" ng-click="addNewBribe()" ng-hide="currentBribeId > -1" ng-bind="'ADD' | translate"></button>
+      <button type="button" class="btn btn-lg btn-success" ng-click="savePerson()" ng-show="currentBribeId > -1" ng-bind="'SAVE' | translate"></button>
+    </div>
+  </div>
+  <div class="row show-grid">
+    <div class="span12">
+      <table class="table table-striped table-bordered table-condensed">
+        <thead>
+          <tr>
+            <th>№</th>
+            <th ng-bind="'NAME' | translate"></th>
+            <th>{{'SUM' | translate}}(<i class="fa fa-eur"></i>)</th>
+            <th ng-bind="'PURPOSE' | translate"></th>
+            <th ng-bind="'DATE' | translate"></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="person in bribeRecord">
+            <td>{{ $index + 1 }}</td>
+            <td>{{ person.name }}</td>
+            <td>{{ person.money }}</td>
+            <td>{{ person.use }}</td>
+            <td>{{ person.data }}</td>
+            <td>
+              <button class="btn btn-lg btn-warning" ng-click="editPerson($index)">
+                <i class="fa fa-pencil-square-o"></i>
+                {{'EDIT' | translate}}
+              </button>
+              <button class="btn btn-lg btn-danger" ng-click="deletePerson($index)">
+                <i class="fa fa-trash-o"></i>
+                {{'DELETE' | translate}}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+
+<!-- Angular.JS -->
+<script src="lib/angular.js"></script>
+<script src="lib/angular-route.js"></script>
+<script src="lib/angular-resource.js"></script>
+<script src="lib/angular-translate.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script src="lib/jquery.min.js"></script>
+<script src="lib/bootstrap.min.js"></script>
+<!-- My script -->
+<script type="text/javascript">
+
+/* App Module */
+var app = angular.module('app', ['pascalprecht.translate'])
+
+/* Plug-in translation */
+.config(function ($translateProvider) {
+  $translateProvider.translations('en', {
+    TITLE: 'Accounting bribery to deputies of Ukraine',
+    NAME: 'Name',
+    SUM: 'Sum',
+    PURPOSE: 'Purpose',
+    DATE: 'Date',
+    ADD: 'Add',
+    EDIT: 'Edit',
+    SAVE: 'Save',
+    DELETE: 'Delete',
+    SEARCH: 'Search name'
+  });
+  $translateProvider.translations('uk', {
+    TITLE: 'Облік хабарів для народного депутата України',
+    NAME: 'П.І.Б.',
+    SUM: 'Сума',
+    PURPOSE: 'Призначення',
+    DATE: 'Дата',
+    ADD: 'Д-и',
+    EDIT: 'Редагувати',
+    SAVE: 'Збе-ти',
+    DELETE: 'Видалити',
+    SEARCH: 'Поиск по имени'
+  });
+  $translateProvider.preferredLanguage('en');
+})
+.controller('MainCtrl', function ($scope, $translate) {
+  $scope.changeLng = function (lang) {
+    $translate.use(lang);
+    console.log($translate);
+  };
+  $scope.currentLng = function (lang) {
+    return $translate.use() == lang;
+  };
+
+  /* Indicator if enabled editing */
+  $scope.currentBribeId = -1;
+
+  // Data default
+  $scope.bribeRecord = [{
+      name: 'Yanukovych V.F.',
+      money: '25000000',
+      use: 'Become deputies of the Parliament of Ukraine',
+      data: '02.10.2012'
+    }];
+
+  /* Get data in localStorage */
+  $scope.getlocalStorage = localStorage.getItem("appBriberyDeputs");
+  if ($scope.getlocalStorage) { $scope.bribeRecord = JSON.parse($scope.getlocalStorage) };
+
+  $scope.addNewBribe = function() {
+    if ($scope.name != '') {
+      $scope.bribeRecord.push({
+        name: $scope.name,
+        money: $scope.money,
+        use: $scope.use,
+        data: $scope.data
+      });
+      localStorage.setItem("appBriberyDeputs", JSON.stringify($scope.bribeRecord));
+      $scope.name = '';
+      $scope.money = '';
+      $scope.use = '';
+      $scope.data = '';
+    }
+  };
+  $scope.savePerson = function() {
+    if ($scope.currentBribeId > -1) {
+      var id = $scope.currentBribeId;
+      if ($scope.name) { $scope.bribeRecord[id].name = $scope.name };
+      $scope.bribeRecord[id].money = $scope.money;
+      $scope.bribeRecord[id].use = $scope.use;
+      $scope.bribeRecord[id].data = $scope.data;
+      localStorage.setItem("appBriberyDeputs", JSON.stringify($scope.bribeRecord));
+      $scope.name = '';
+      $scope.money = '';
+      $scope.use = '';
+      $scope.data = '';
+      $scope.currentBribeId = -1;
+    }
+  };
+  $scope.editPerson = function(id) {
+    $scope.currentBribeId = id;
+    $scope.name = $scope.bribeRecord[id].name;
+    $scope.money = $scope.bribeRecord[id].money;
+    $scope.use = $scope.bribeRecord[id].use;
+    $scope.data = $scope.bribeRecord[id].data;
+  };
+  $scope.deletePerson = function(id) {
+    $scope.bribeRecord.splice(id, 1);
+    localStorage.setItem("appBriberyDeputs", JSON.stringify($scope.bribeRecord));
+  };
+
+  /* Get data dropdown list */
+  $scope.dataList = [
+  {'name': 'Abramovich R.A.'},
+  {'name': 'Kuchma L.D.'},
+  {'name': 'Lyovochkin S.V.'},
+  {'name': 'Novinskiy V.V.'},
+  {'name': 'Medvedchuk V.V.'},
+  {'name': 'Pinchuk V.M.'},
+  {'name': 'Dobkin M.M.'},
+  {'name': 'Shufrich N.I'},
+  {'name': 'Korolevskaja N.J.'},
+  {'name': 'Lyovochkina Y.V.'},
+  {'name': 'Kolesnikov D.V.'}
+  ];
+
+})
+
+/* Directive, which will create a drop-down list */
+app.directive('dropdownList', function( $timeout ) {
+  return {
+    restrict: 'E',
+    scope: {
+      dataList: '=',
+      searchName: '=',
+      placeholder: '@'
+    },
+    template: '<input type="text" ng-model="search" placeholder="{{ placeholder }}" />' +
+          '<div class="search-item-list">' +
+            '<ul class="list">' +
+              '<li ng-repeat="item in dataList | filter:search" ng-click="chooseItem( item )">{{ item.name }}</li>' +
+            '</ul>' +
+          '</div>',
+    link: function(scope, el, attr) {
+      var $listContainer = angular.element( el[0].querySelectorAll('.search-item-list')[0] );
+      el.find('input').bind('focus',function() {
+        $listContainer.addClass('show');
+      });
+      el.find('input').bind('blur',function() {
+      /* 'Blur' reacts faster than the ng-click, */
+      /* So no $ timeout chooseItem not have time to catch the item before it disappears list */
+        $timeout(function() { $listContainer.removeClass('show') }, 200);
+      });
+
+      scope.chooseItem = function( item ) {
+        scope.search = item.name;
+        scope.searchName = scope.search;
+        scope.search = '';
+        $listContainer.removeClass('show');
+      }
+
+    }
+  }
+});
+
+</script>
