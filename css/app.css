@@ -30,6 +30,9 @@ html, body {
 	padding-right: 20px;
 	box-shadow: 1px 0 0 0 #444;
 }
+.navbar-header .selected {
+	border: 2px solid gold;
+}
 .navbar-inverse .navbar-brand {
 	color: #ccc;
 }

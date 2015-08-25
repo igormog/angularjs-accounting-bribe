@@ -83,7 +83,7 @@ app.controller('MainCtrl', function ($scope, $translate) {
 		console.log($translate);
 	};
 	$scope.currentLng = function (lang) {
-	
+		return $translate.use() == lang;
 	};
 });
 
