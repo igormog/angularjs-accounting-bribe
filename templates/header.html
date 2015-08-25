@@ -8,8 +8,8 @@
 				<span class="icon-bar"></span>
 			</button>
 			<a class="navbar-brand" ng-bind="'HOME' | translate" href="#/">HOME</a>
-			<a ng-class="{'selected' : currentLng('en')}" ng-click="changeLng('en')" class="navbar-brand"><img src="img/en.jpg"/></a>
-			<a ng-class="{'selected' : currentLng('uk')}" ng-click="changeLng('uk')" class="navbar-brand last"><img src="img/uk.jpg"/></a>
+			<a ng-click="changeLng('en')" class="navbar-brand"><img ng-class="{'selected' : currentLng('en')}" src="img/en.jpg"/></a>
+			<a ng-click="changeLng('uk')" class="navbar-brand last"><img ng-class="{'selected' : currentLng('uk')}" src="img/uk.jpg"/></a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
 			<ul class="nav navbar-nav">

@@ -30,6 +30,9 @@ html, body {
 	padding-right: 20px;
 	box-shadow: 1px 0 0 0 #444;
 }
+.navbar-header img {
+	border: 2px solid #222;
+}
 .navbar-header .selected {
 	border: 2px solid gold;
 }
@@ -42,7 +45,7 @@ html, body {
 	right: 0;
 	width: 100px;
 	height: 18px;
-	margin: 12px 10px;
+	margin: 14px 10px;
 	border-radius: 12px;
 	border: 1px solid #111;
 	text-align: center;
@@ -50,7 +53,7 @@ html, body {
 	color: #666;
 	z-index: 1;
 	padding-bottom: 4px;
-	box-sizing: content-box;
+	box-sizing: padding-box;
 }
 .navbar input[type="text"]:focus {
 	box-shadow: 0 0 5px gold;
@@ -60,7 +63,7 @@ html, body {
 	position: absolute;
 	top: 0;
 	right: 0;
-	margin: 18px 94px 0 0;
+	margin: 17px 94px 0 0;
 	color: #444;
 	z-index: 2;
 }
@@ -72,11 +75,11 @@ html, body {
 		padding-right: 10px;
 	}
 	.navbar input[type="text"] {
-		width: 95px;
-		margin-right: 70px;
+		width: 80px;
+		margin-right: 62px;
 	}
 	.fa-search {
-		margin: 18px 150px 0 0;
+		margin-right: 126px;
 	}
 }
 /******* Memu ********/
