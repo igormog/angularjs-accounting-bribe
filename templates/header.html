@@ -7,7 +7,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#/">HOME</a>
+			<a class="navbar-brand" ng-bind="'HOME' | translate" href="#/">HOME</a>
 			<a ng-class="{'selected' : currentLng('en')}" ng-click="changeLng('en')" class="navbar-brand"><img src="img/en.jpg"/></a>
 			<a ng-class="{'selected' : currentLng('uk')}" ng-click="changeLng('uk')" class="navbar-brand last"><img src="img/uk.jpg"/></a>
 		</div>
@@ -19,5 +19,5 @@
 		</div>
 	</div>
 	<i class="fa fa-search"></i>
-	<input type="text" placeholder="search" />
+	<input type="text" />
 </nav>
