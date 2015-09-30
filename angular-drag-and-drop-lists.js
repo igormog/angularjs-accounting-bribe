@@ -519,12 +519,3 @@ angular.module('dndLists', [])
       });
     };
   })
-
-  /**
-   * This workaround handles the fact that Internet Explorer does not support drag types other than
-   * "Text" and "URL". That means we can not know whether the data comes from one of our elements or
-   * is just some other data like a text selection. As a workaround we save the isDragging flag in
-   * here. When a dropover event occurs, we only allow the drop if we are already dragging, because
-   * that means the element is ours.
-   */
-  .factory('dndDragTypeWorkaround', function(){ return {} })
