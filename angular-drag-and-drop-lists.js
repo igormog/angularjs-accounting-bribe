@@ -528,11 +528,3 @@ angular.module('dndLists', [])
    * that means the element is ours.
    */
   .factory('dndDragTypeWorkaround', function(){ return {} })
-
-  /**
-   * Chrome on Windows does not set the dropEffect field, which we need in dragend to determine
-   * whether a drag operation was successful. Therefore we have to maintain it in this global
-   * variable. The bug report for that has been open for years:
-   * https://code.google.com/p/chromium/issues/detail?id=39399
-   */
-  .factory('dndDropEffectWorkaround', function(){ return {} });
