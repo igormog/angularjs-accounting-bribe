@@ -509,13 +509,5 @@ angular.module('dndLists', [])
         event.stopPropagation();
       });
 
-      /**
-       * Stop propagation of dragend events, otherwise dnd-moved might be triggered and the element
-       * would be removed.
-       */
-      element.on('dragend', function(event) {
-        event = event.originalEvent || event;
-        event.stopPropagation();
-      });
     };
   })
