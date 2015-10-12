@@ -82,3 +82,31 @@ angular.module('dndLists', [])
         dndDragTypeWorkaround.isDragging = false;
         event.stopPropagation();
       });
+
+
+
+
+      /**
+       * When the element is clicked we invoke the callback function
+       * specified with the dnd-selected attribute.
+       */
+      element.on('click', function(event) {
+        if (!attr.dndSelected) return;
+
+        event = event.originalEvent || event;
+        scope.$apply(function() {
+          $parse(attr.dndSelected)(scope, {event: event});
+        });
+
+        // Prevent triggering dndSelected in parant elements.
+        event.stopPropagation();
+      });
+
+      /**
+       * Workaround to make element draggable in IE9
+       */
+      element.on('selectstart', function() {
+        if (this.dragDrop) this.dragDrop();
+      });
+    };
+  }])
