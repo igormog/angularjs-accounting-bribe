@@ -199,3 +199,66 @@ angular.module('dndLists', [])
         event.stopPropagation();
         return false;
       });
+
+
+
+
+
+      /**
+       * When the element is dropped, we use the position of the placeholder element as the
+       * position where we insert the transferred data. This assumes that the list has exactly
+       * one child element per array element.
+       */
+      element.on('drop', function(event) {
+        event = event.originalEvent || event;
+
+        if (!isDropAllowed(event)) return true;
+
+        // The default behavior in Firefox is to interpret the dropped element as URL and
+        // forward to it. We want to prevent that even if our drop is aborted.
+        event.preventDefault();
+
+        // Unserialize the data that was serialized in dragstart. According to the HTML5 specs,
+        // the "Text" drag type will be converted to text/plain, but IE does not do that.
+        var data = event.dataTransfer.getData("Text") || event.dataTransfer.getData("text/plain");
+        var transferredObject;
+        try {
+          transferredObject = JSON.parse(data);
+        } catch(e) {
+          return stopDragover();
+        }
+
+        // Invoke the callback, which can transform the transferredObject and even abort the drop.
+        var index = getPlaceholderIndex();
+        if (attr.dndDrop) {
+          transferredObject = invokeCallback(attr.dndDrop, event, index, transferredObject);
+          if (!transferredObject) {
+            return stopDragover();
+          }
+        }
+
+        // Retrieve the JSON array and insert the transferred object into it.
+        var targetArray = scope.$eval(attr.dndList);
+        scope.$apply(function() {
+          targetArray.splice(index, 0, transferredObject);
+        });
+        invokeCallback(attr.dndInserted, event, index, transferredObject);
+
+        // In Chrome on Windows the dropEffect will always be none...
+        // We have to determine the actual effect manually from the allowed effects
+        if (event.dataTransfer.dropEffect === "none") {
+          if (event.dataTransfer.effectAllowed === "copy" ||
+              event.dataTransfer.effectAllowed === "move") {
+            dndDropEffectWorkaround.dropEffect = event.dataTransfer.effectAllowed;
+          } else {
+            dndDropEffectWorkaround.dropEffect = event.ctrlKey ? "copy" : "move";
+          }
+        } else {
+          dndDropEffectWorkaround.dropEffect = event.dataTransfer.dropEffect;
+        }
+
+        // Clean up
+        stopDragover();
+        event.stopPropagation();
+        return false;
+      });
