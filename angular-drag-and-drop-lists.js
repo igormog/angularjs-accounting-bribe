@@ -281,3 +281,21 @@ angular.module('dndLists', [])
           }
         }, 100);
       });
+
+
+      /**
+       * Checks whether the mouse pointer is in the first half of the given target element.
+       *
+       * In Chrome we can just use offsetY, but in Firefox we have to use layerY, which only
+       * works if the child element has position relative. In IE the events are only triggered
+       * on the listNode instead of the listNodeItem, therefore the mouse positions are
+       * relative to the parent element of targetNode.
+       */
+      function isMouseInFirstHalf(event, targetNode, relativeToParent) {
+        var mousePointer = horizontal ? (event.offsetX || event.layerX)
+                                      : (event.offsetY || event.layerY);
+        var targetSize = horizontal ? targetNode.offsetWidth : targetNode.offsetHeight;
+        var targetPosition = horizontal ? targetNode.offsetLeft : targetNode.offsetTop;
+        targetPosition = relativeToParent ? targetPosition : 0;
+        return mousePointer < targetPosition + targetSize / 2;
+      }
