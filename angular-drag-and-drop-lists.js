@@ -299,3 +299,19 @@ angular.module('dndLists', [])
         targetPosition = relativeToParent ? targetPosition : 0;
         return mousePointer < targetPosition + targetSize / 2;
       }
+
+
+      /**
+       * Tries to find a child element that has the dndPlaceholder class set. If none was found, a
+       * new li element is created.
+       */
+      function getPlaceholderElement() {
+        var placeholder;
+        angular.forEach(element.children(), function(childNode) {
+          var child = angular.element(childNode);
+          if (child.hasClass('dndPlaceholder')) {
+            placeholder = child;
+          }
+        });
+        return placeholder || angular.element("<li class='dndPlaceholder'></li>");
+      }
