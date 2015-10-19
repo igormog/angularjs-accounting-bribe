@@ -315,3 +315,12 @@ angular.module('dndLists', [])
         });
         return placeholder || angular.element("<li class='dndPlaceholder'></li>");
       }
+
+
+      /**
+       * We use the position of the placeholder node to determine at which position of the array the
+       * object needs to be inserted
+       */
+      function getPlaceholderIndex() {
+        return Array.prototype.indexOf.call(listNode.children, placeholderNode);
+      }
