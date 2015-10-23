@@ -374,3 +374,18 @@ angular.module('dndLists', [])
           type: dndDragTypeWorkaround.isDragging ? dndDragTypeWorkaround.dragType : undefined
         });
       }
+
+      /**
+       * Check if the dataTransfer object contains a drag type that we can handle. In old versions
+       * of IE the types collection will not even be there, so we just assume a drop is possible.
+       */
+      function hasTextMimetype(types) {
+        if (!types) return true;
+        for (var i = 0; i < types.length; i++) {
+          if (types[i] === "Text" || types[i] === "text/plain") return true;
+        }
+
+        return false;
+      }
+    };
+  }])
