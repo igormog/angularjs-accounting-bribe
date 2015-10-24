@@ -389,3 +389,10 @@ angular.module('dndLists', [])
       }
     };
   }])
+
+
+
+  .directive('dndNodrag', function() {
+    return function(scope, element, attr) {
+      // Set as draggable so that we can cancel the events explicitly
+      element.attr("draggable", "true");
