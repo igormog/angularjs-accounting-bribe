@@ -391,7 +391,11 @@ angular.module('dndLists', [])
   }])
 
 
-
+  /**
+   * Use the dnd-nodrag attribute inside of dnd-draggable elements to prevent them from starting
+   * drag operations. This is especially useful if you want to use input elements inside of
+   * dnd-draggable elements or create specific handle elements.
+   */
   .directive('dndNodrag', function() {
     return function(scope, element, attr) {
       // Set as draggable so that we can cancel the events explicitly
