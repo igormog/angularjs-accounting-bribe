@@ -431,3 +431,11 @@ angular.module('dndLists', [])
       // Set the HTML5 draggable attribute on the element
       element.attr("draggable", "true");
 
+
+      // If the dnd-disable-if attribute is set, we have to watch that
+      if (attr.dndDisableIf) {
+        scope.$watch(attr.dndDisableIf, function(disabled) {
+          element.attr("draggable", !disabled);
+        });
+      }
+
