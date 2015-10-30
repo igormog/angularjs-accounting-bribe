@@ -420,7 +420,7 @@ angular.module('dndLists', [])
   })
 
 
-  /**
+/**
  * angular-drag-and-drop v1.0
  */
     angular.module('dndLists', [])
@@ -438,4 +438,11 @@ angular.module('dndLists', [])
           element.attr("draggable", !disabled);
         });
       }
+
+      /**
+       * When the drag operation is started we have to prepare the dataTransfer object,
+       * which is the primary way we communicate with the target element
+       */
+      element.on('dragstart', function(event) {
+        event = event.originalEvent || event;
 
