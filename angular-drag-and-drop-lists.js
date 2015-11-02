@@ -451,3 +451,7 @@ angular.module('dndLists', [])
 
         // Only allow actions specified in dnd-effect-allowed attribute
         event.dataTransfer.effectAllowed = attr.dndEffectAllowed || "move";
+
+        // Add CSS classes. See documentation above
+        element.addClass("dndDragging");
+        $timeout(function() { element.addClass("dndDraggingSource"); }, 0);
