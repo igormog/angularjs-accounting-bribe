@@ -455,3 +455,8 @@ angular.module('dndLists', [])
         // Add CSS classes. See documentation above
         element.addClass("dndDragging");
         $timeout(function() { element.addClass("dndDraggingSource"); }, 0);
+
+
+        // Workarounds for stupid browsers, see description below
+        dndDropEffectWorkaround.dropEffect = "none";
+        dndDragTypeWorkaround.isDragging = true;
