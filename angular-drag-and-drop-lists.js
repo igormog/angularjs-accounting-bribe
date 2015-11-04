@@ -460,3 +460,7 @@ angular.module('dndLists', [])
         // Workarounds for stupid browsers, see description below
         dndDropEffectWorkaround.dropEffect = "none";
         dndDragTypeWorkaround.isDragging = true;
+
+                
+        // typename, but we have to use "Text" there to support IE
+        dndDragTypeWorkaround.dragType = attr.dndType ? scope.$eval(attr.dndType) : undefined;
