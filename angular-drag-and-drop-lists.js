@@ -461,6 +461,6 @@ angular.module('dndLists', [])
         dndDropEffectWorkaround.dropEffect = "none";
         dndDragTypeWorkaround.isDragging = true;
 
-                
+        // Save type of item in global state. Usually, this would go into the dataTransfer
         // typename, but we have to use "Text" there to support IE
         dndDragTypeWorkaround.dragType = attr.dndType ? scope.$eval(attr.dndType) : undefined;
