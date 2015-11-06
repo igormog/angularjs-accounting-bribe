@@ -464,3 +464,7 @@ angular.module('dndLists', [])
         // Save type of item in global state. Usually, this would go into the dataTransfer
         // typename, but we have to use "Text" there to support IE
         dndDragTypeWorkaround.dragType = attr.dndType ? scope.$eval(attr.dndType) : undefined;
+
+
+        // Invoke callback
+        $parse(attr.dndDragstart)(scope, {event: event});
