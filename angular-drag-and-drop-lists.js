@@ -468,3 +468,6 @@ angular.module('dndLists', [])
 
         // Invoke callback
         $parse(attr.dndDragstart)(scope, {event: event});
+
+         event.stopPropagation();
+      });
