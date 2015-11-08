@@ -471,3 +471,7 @@ angular.module('dndLists', [])
 
          event.stopPropagation();
       });
+
+
+(function (window, angular, $, undefined) {
+'use strict';
