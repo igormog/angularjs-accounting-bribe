@@ -475,3 +475,7 @@ angular.module('dndLists', [])
 
 (function (window, angular, $, undefined) {
 'use strict';
+
+var jqyoui = angular.module('ngDragDrop', []).service('ngDragDropService', ['$timeout', '$parse', '$q', function($timeout, $parse, $q) {
+    this.draggableScope = null;
+    this.droppableScope = null;
