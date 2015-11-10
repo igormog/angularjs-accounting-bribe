@@ -479,3 +479,5 @@ angular.module('dndLists', [])
 var jqyoui = angular.module('ngDragDrop', []).service('ngDragDropService', ['$timeout', '$parse', '$q', function($timeout, $parse, $q) {
     this.draggableScope = null;
     this.droppableScope = null;
+
+    $('head').prepend('<style type="text/css">@charset "UTF-8";.angular-dragdrop-hide{display: none !important;}</style>');
