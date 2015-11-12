@@ -484,3 +484,8 @@ var jqyoui = angular.module('ngDragDrop', []).service('ngDragDropService', ['$ti
 
       this.callEventCallback = function (scope, callbackName, event, ui) {
       if (!callbackName) return;
+
+      var objExtract = extract(callbackName),
+          callback = objExtract.callback,
+          constructor = objExtract.constructor,
+          args = [event, ui].concat(objExtract.args);
