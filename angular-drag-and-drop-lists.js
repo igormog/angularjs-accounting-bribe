@@ -489,3 +489,8 @@ var jqyoui = angular.module('ngDragDrop', []).service('ngDragDropService', ['$ti
           callback = objExtract.callback,
           constructor = objExtract.constructor,
           args = [event, ui].concat(objExtract.args);
+
+      // call either $scoped method i.e. $scope.dropCallback or constructor's method i.e. this.dropCallback.
+      // Removing scope.$apply call that was performance intensive (especially onDrag) and does not require it
+      // always. So call it within the callback if needed.
+      return (scope[callback] || scope[constructor][callback]).apply(scope, args);
