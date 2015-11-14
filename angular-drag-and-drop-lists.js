@@ -494,3 +494,10 @@ var jqyoui = angular.module('ngDragDrop', []).service('ngDragDropService', ['$ti
       // Removing scope.$apply call that was performance intensive (especially onDrag) and does not require it
       // always. So call it within the callback if needed.
       return (scope[callback] || scope[constructor][callback]).apply(scope, args);
+
+      function extract(callbackName) {
+      var atStartBracket = callbackName.indexOf('(') !== -1 ? callbackName.indexOf('(') : callbackName.length,
+            atEndBracket = callbackName.lastIndexOf(')') !== -1 ? callbackName.lastIndexOf(')') : callbackName.length,
+            args = callbackName.substring(atStartBracket + 1, atEndBracket), // matching function arguments inside brackets
+            constructor = callbackName.indexOf('.') !== -1 ? callbackName.substr(0, callbackName.indexOf('.')) : null; // matching a string upto a dot to check ctrl as syntax
+            constructor = scope[constructor] && typeof scope[constructor].constructor === 'function' ? constructor : null;
