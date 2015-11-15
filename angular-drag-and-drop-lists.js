@@ -501,3 +501,11 @@ var jqyoui = angular.module('ngDragDrop', []).service('ngDragDropService', ['$ti
             args = callbackName.substring(atStartBracket + 1, atEndBracket), // matching function arguments inside brackets
             constructor = callbackName.indexOf('.') !== -1 ? callbackName.substr(0, callbackName.indexOf('.')) : null; // matching a string upto a dot to check ctrl as syntax
             constructor = scope[constructor] && typeof scope[constructor].constructor === 'function' ? constructor : null;
+
+                    return {
+          callback: callbackName.substring(constructor && constructor.length + 1 || 0, atStartBracket),
+          args: $.map(args && args.split(',') || [], function(item) { return [$parse(item)(scope)]; }),
+          constructor: constructor
+        }
+      }
+    };
