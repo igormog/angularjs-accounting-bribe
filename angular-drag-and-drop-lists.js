@@ -509,3 +509,20 @@ var jqyoui = angular.module('ngDragDrop', []).service('ngDragDropService', ['$ti
         }
       }
     };
+
+    this.invokeDrop = function ($draggable, $droppable, event, ui) {
+      var dragModel = '',
+        dropModel = '',
+        dragSettings = {},
+        dropSettings = {},
+        jqyoui_pos = null,
+        dragItem = {},
+        dropItem = {},
+        dragModelValue,
+        dropModelValue,
+        $droppableDraggable = null,
+        droppableScope = this.droppableScope,
+        draggableScope = this.draggableScope,
+        $helper = null,
+        promises = [],
+        temp;
