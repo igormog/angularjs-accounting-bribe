@@ -526,3 +526,8 @@ var jqyoui = angular.module('ngDragDrop', []).service('ngDragDropService', ['$ti
         $helper = null,
         promises = [],
         temp;
+
+      dragModel = $draggable.ngattr('ng-model');
+      dropModel = $droppable.ngattr('ng-model');
+      dragModelValue = draggableScope.$eval(dragModel);
+      dropModelValue = droppableScope.$eval(dropModel);
