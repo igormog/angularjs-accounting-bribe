@@ -535,3 +535,30 @@ var jqyoui = angular.module('ngDragDrop', []).service('ngDragDropService', ['$ti
       $droppableDraggable = $droppable.find('[jqyoui-draggable]:last,[data-jqyoui-draggable]:last');
       dropSettings = droppableScope.$eval($droppable.attr('jqyoui-droppable') || $droppable.attr('data-jqyoui-droppable')) || [];
       dragSettings = draggableScope.$eval($draggable.attr('jqyoui-draggable') || $draggable.attr('data-jqyoui-draggable')) || [];
+
+      // 
+      dragSettings.index = this.fixIndex(draggableScope, dragSettings, dragModelValue);
+      dropSettings.index = this.fixIndex(droppableScope, dropSettings, dropModelValue);
+
+      jqyoui_pos = angular.isArray(dragModelValue) ? dragSettings.index : null;
+      dragItem = angular.isArray(dragModelValue) ? dragModelValue[jqyoui_pos] : dragModelValue;
+
+      if (dragSettings.deepCopy) {
+        dragItem = angular.copy(dragItem);
+      }
+
+      if (angular.isArray(dropModelValue) && dropSettings && dropSettings.index !== undefined) {
+        dropItem = dropModelValue[dropSettings.index];
+      } else if (!angular.isArray(dropModelValue)) {
+        dropItem = dropModelValue;
+      } else {
+        dropItem = {};
+      }
+
+      if (dropSettings.deepCopy) {
+        dropItem = angular.copy(dropItem);
+      }
+
+      if (dragSettings.beforeDrop) {
+        promises.push(this.callEventCallback(draggableScope, dragSettings.beforeDrop, event, ui));
+      }
