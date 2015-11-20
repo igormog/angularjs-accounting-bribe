@@ -562,3 +562,57 @@ var jqyoui = angular.module('ngDragDrop', []).service('ngDragDropService', ['$ti
       if (dragSettings.beforeDrop) {
         promises.push(this.callEventCallback(draggableScope, dragSettings.beforeDrop, event, ui));
       }
+
+
+      $q.all(promises).then(angular.bind(this, function() {
+        if (dragSettings.insertInline && dragModel === dropModel) {
+          if (dragSettings.index > dropSettings.index) {
+            temp = dragModelValue[dragSettings.index];
+            for (var i = dragSettings.index; i > dropSettings.index; i--) {
+              dropModelValue[i] = angular.copy(dropModelValue[i - 1]);
+              dropModelValue[i - 1] = {};
+              dropModelValue[i][dragSettings.direction] = 'left';
+            }
+            dropModelValue[dropSettings.index] = temp;
+          } else {
+            temp = dragModelValue[dragSettings.index];
+            for (var i = dragSettings.index; i < dropSettings.index; i++) {
+              dropModelValue[i] = angular.copy(dropModelValue[i + 1]);
+              dropModelValue[i + 1] = {};
+              dropModelValue[i][dragSettings.direction] = 'right';
+            }
+            dropModelValue[dropSettings.index] = temp;
+          }
+          this.callEventCallback(droppableScope, dropSettings.onDrop, event, ui);
+        } else if (dragSettings.animate === true) {
+          // be nice with absolutely positioned brethren :-)
+          $helper = $draggable.clone();
+          $helper.css({'position': 'absolute'}).css($draggable.offset());
+          $('body').append($helper);
+          $draggable.addClass('angular-dragdrop-hide');
+
+          this.move($helper, $droppableDraggable.length > 0 ? $droppableDraggable : $droppable, null, 'fast', dropSettings, function() { $helper.remove(); });
+          this.move($droppableDraggable.length > 0 && !dropSettings.multiple ? $droppableDraggable : [], $draggable.parent('[jqyoui-droppable],[data-jqyoui-droppable]'), jqyoui.startXY, 'fast', dropSettings, angular.bind(this, function() {
+            $timeout(angular.bind(this, function() {
+              // Do not move this into move() to avoid flickering issue
+              $draggable.css({'position': 'relative', 'left': '', 'top': ''}).removeClass('angular-dragdrop-hide');
+              // Angular v1.2 uses ng-hide to hide an element not display property
+              // so we've to manually remove display:none set in this.move()
+              $droppableDraggable.css({'position': 'relative', 'left': '', 'top': '', 'display': $droppableDraggable.css('display') === 'none' ? '' : $droppableDraggable.css('display')});
+
+              this.mutateDraggable(draggableScope, dropSettings, dragSettings, dragModel, dropModel, dropItem, $draggable);
+              this.mutateDroppable(droppableScope, dropSettings, dragSettings, dropModel, dragItem, jqyoui_pos);
+              this.callEventCallback(droppableScope, dropSettings.onDrop, event, ui);
+            }));
+          }));
+        } else {
+          $timeout(angular.bind(this, function() {
+            this.mutateDraggable(draggableScope, dropSettings, dragSettings, dragModel, dropModel, dropItem, $draggable);
+            this.mutateDroppable(droppableScope, dropSettings, dragSettings, dropModel, dragItem, jqyoui_pos);
+            this.callEventCallback(droppableScope, dropSettings.onDrop, event, ui);
+          }));
+        }
+      })).finally(angular.bind(this, function() {
+        this.restore($draggable);
+      }));
+    };
