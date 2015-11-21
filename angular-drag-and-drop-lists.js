@@ -616,3 +616,14 @@ var jqyoui = angular.module('ngDragDrop', []).service('ngDragDropService', ['$ti
         this.restore($draggable);
       }));
     };
+
+
+    this.move = function($fromEl, $toEl, toPos, duration, dropSettings, callback) {
+      if ($fromEl.length === 0) {
+        if (callback) {
+          window.setTimeout(function() {
+            callback();
+          }, 300);
+        }
+        return false;
+      }
