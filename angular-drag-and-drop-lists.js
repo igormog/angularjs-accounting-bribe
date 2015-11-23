@@ -627,3 +627,25 @@ var jqyoui = angular.module('ngDragDrop', []).service('ngDragDropService', ['$ti
         }
         return false;
       }
+
+      var zIndex = $fromEl.css('z-index'),
+        fromPos = $fromEl[dropSettings.containment || 'offset'](),
+        displayProperty = $toEl.css('display'), // sometimes `display` is other than `block`
+        hadNgHideCls = $toEl.hasClass('ng-hide');
+
+      if (toPos === null && $toEl.length > 0) {
+        if (($toEl.attr('jqyoui-draggable') || $toEl.attr('data-jqyoui-draggable')) !== undefined && $toEl.ngattr('ng-model') !== undefined && $toEl.is(':visible') && dropSettings && dropSettings.multiple) {
+          toPos = $toEl[dropSettings.containment || 'offset']();
+          if (dropSettings.stack === false) {
+            toPos.left+= $toEl.outerWidth(true);
+          } else {
+            toPos.top+= $toEl.outerHeight(true);
+          }
+        } else {
+          // Angular v1.2 uses ng-hide to hide an element 
+          // so we've to remove it in order to grab its position
+          if (hadNgHideCls) $toEl.removeClass('ng-hide');
+          toPos = $toEl.css({'visibility': 'hidden', 'display': 'block'})[dropSettings.containment || 'offset']();
+          $toEl.css({'visibility': '','display': displayProperty});
+        }
+      }
