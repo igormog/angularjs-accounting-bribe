@@ -649,3 +649,17 @@ var jqyoui = angular.module('ngDragDrop', []).service('ngDragDropService', ['$ti
           $toEl.css({'visibility': '','display': displayProperty});
         }
       }
+
+
+    $fromEl.css({'position': 'absolute', 'z-index': 9999})
+        .css(fromPos)
+        .animate(toPos, duration, function() {
+          // Angular v1.2 uses ng-hide to hide an element
+          // and as we remove it above, we've to put it back to
+          // hide the element (while swapping) if it was hidden already
+          // because we remove the display:none in this.invokeDrop()
+          if (hadNgHideCls) $toEl.addClass('ng-hide');
+          $fromEl.css('z-index', zIndex);
+          if (callback) callback();
+        });
+    };
