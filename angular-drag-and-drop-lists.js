@@ -663,3 +663,26 @@ var jqyoui = angular.module('ngDragDrop', []).service('ngDragDropService', ['$ti
           if (callback) callback();
         });
     };
+
+
+    this.mutateDroppable = function(scope, dropSettings, dragSettings, dropModel, dragItem, jqyoui_pos) {
+      var dropModelValue = scope.$eval(dropModel);
+
+      scope.dndDragItem = dragItem;
+
+      if (angular.isArray(dropModelValue)) {
+        if (dropSettings && dropSettings.index >= 0) {
+          dropModelValue[dropSettings.index] = dragItem;
+        } else {
+          dropModelValue.push(dragItem);
+        }
+        if (dragSettings && dragSettings.placeholder === true) {
+          dropModelValue[dropModelValue.length - 1]['jqyoui_pos'] = jqyoui_pos;
+        }
+      } else {
+        $parse(dropModel + ' = dndDragItem')(scope);
+        if (dragSettings && dragSettings.placeholder === true) {
+          dropModelValue['jqyoui_pos'] = jqyoui_pos;
+        }
+      }
+    };
