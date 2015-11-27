@@ -722,3 +722,10 @@ var jqyoui = angular.module('ngDragDrop', []).service('ngDragDropService', ['$ti
 
       this.restore($draggable);
     };
+
+
+    this.restore = function($draggable) {
+      $draggable.css({'z-index': '', 'left': '', 'top': ''});
+    };
+
+
