@@ -351,3 +351,4 @@ angular.module('dndLists', [])
 
         return true;
       }
+
